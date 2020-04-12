@@ -1,5 +1,5 @@
 
-from PurchaseList.Core.DBInstance import *
+from Learn.PurchaseList.Core.DBInstance import *
 
 
 def print_db():
