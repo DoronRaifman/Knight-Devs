@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--- Macros --->
+{% macro draw_line(field_dict, widths) %}
+            <tr>
+                {% for key in field_dict %}
+                    {% set width = widths[loop.index0]|string %}
+                    {% set field = field_dict[key] %}
+                    <td class="with_border" style="width: {{ width }}%"> {{ field }} </td>
+                {% endfor %}
+                <td class="with_border" style="width: {{ widths[3] }}%">
+                    <button type="button" class="my_button" onclick="call_item({{ field_dict['ID'] }})">Goto</button>
+                </td>
+                <td class="with_border" style="width: {{ widths[4] }}%">
+                </td>
+            </tr>
+{% endmacro %}
+
+
+{% macro draw_rows(rows) %}
+    <table width="70%">
+        {% set widths = [10, 40, 10, 20, 20] %}
+
+        <thead>
+        {% for key in rows[0] %}
+            {% set width = widths[loop.index0]|string %}
+            <th class="with_border" style="width: {{ width }}%"> {{ key }} </th>
+        {% endfor %}
+        <th class="with_border" style="width: {{ widths[3] }}%">
+        </th>
+        <th class="with_border" style="width: {{ widths[4] }}%">
+        </th>
+
+        </thead>
+
+        {% for row in rows %}
+            {{ draw_line(row, widths) }}
+        {% endfor %}
+
+    </table>
+{% endmacro %}
+
+</html>
