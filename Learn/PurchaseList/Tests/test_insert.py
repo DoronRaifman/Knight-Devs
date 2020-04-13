@@ -1,5 +1,6 @@
 
 from Learn.PurchaseList.Core.DBInstance import *
+from Learn.PurchaseList.Core.PurchaseList import PurchaseList
 
 
 def print_db():
@@ -55,11 +56,22 @@ def test_some_stuff():
     print_db()
 
 
+def use_purchse_list():
+    purchase_list = PurchaseList()
+    # purchase_list.connect()
+    purchase_list.print_db()
+    root_items = purchase_list.get_root_items()
+    del_item = root_items[0]
+    purchase_list.delete_item_with_siblings(del_item['id'])
+    # purchase_list.disconnect()
+
+
 if __name__ == '__main__':
     DBInstance.connect()
     # test_some_stuff()
     # fill_initial_data()
     print_db()
+    # use_purchse_list()
     DBInstance.disconnect()
 
 
