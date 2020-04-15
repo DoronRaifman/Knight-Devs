@@ -9,14 +9,8 @@ class DBException(Exception):
 
 
 class DBInstance:
-    connect_info = {
-        'user': 'Doron',
-        'password': 'Talinka1',
-        'host': 'localhost',
-        'database': 'purchaselist',
-        'raise_on_warnings': True,
-    }
-    # schema = 'purchaselist'
+    connect_info = {'user': 'Doron', 'password': 'Talinka1', 'host': 'localhost', 'database': 'purchase_list',
+                    'raise_on_warnings': True, }
     db = None
     cursor = None
 
