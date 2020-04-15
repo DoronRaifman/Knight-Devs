@@ -90,8 +90,10 @@ class DBInstance:
         return res
 
     @classmethod
-    def find(cls, table_name: str, where_clause: str):
+    def find(cls, table_name: str, where_clause: str, order_by: str = None):
         sql_cmd = f"select * from {table_name} WHERE {where_clause}"
+        if order_by is not None:
+            sql_cmd += f" ORDER BY {order_by}"
         res = cls.execute_sql(sql_cmd)
         fetch_records = cls.cursor.fetchall()
         fetch_records = list(fetch_records)

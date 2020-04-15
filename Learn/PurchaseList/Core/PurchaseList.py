@@ -4,17 +4,28 @@ from Learn.PurchaseList.Core.DBInstance import *
 
 class Item:
     def __init__(self, item_dict: dict):
-        self.id = item_dict['id']
-        self.item_name = item_dict['item_name']
-        self.papa_id = item_dict['papa_id']
-        self.order_id = item_dict['order_id']
-        self.sons = None
+        self._id: int = item_dict['id']
+        self.item_name: str = item_dict['item_name']
+        self.papa_id: int = item_dict['papa_id']
+        self.order_id: int = item_dict['order_id']
+        self.sons: list = []
 
     def __str__(self):
-        return f"id:{self.id}, name:'{self.item_name}', papa:{self.papa_id}, order:{self.order_id}"
+        return f"id:{self.id}, name:'{self.item_name}', papa:{self.papa_id}, order_id:{self.order_id}"
 
     def __repr__(self):
-        return f"{self.item_name}:{self.sons}" if self.sons is not None else f"{self.item_name}"
+        # return f"{self.item_name}:{self.sons}"
+        return f"{self.item_name}:{self.sons}" if len(self.sons) > 0 else self.item_name
+
+    @property
+    def id(self):
+        return self._id
+
+    # Note: we don't allow setter, only constructor modify value
+    # if try to use setter will raise AttributeError exception
+    # @id.setter
+    # def id(self, value: int):
+    #     self._id = value
 
 
 class PurchaseList:
@@ -33,30 +44,43 @@ class PurchaseList:
         return item_id
 
     def update_item(self, item_id:int, item_fields: dict):
-        res = DBInstance.update(self.table_name, item_fields, f"id = {item_id}")
+        res = DBInstance.update(self.table_name, item_fields, where_clause=f"id = {item_id}")
         return res
 
     def delete_all_items(self):
-        DBInstance.delete(self.table_name, 'id > 0')
+        DBInstance.delete(self.table_name, where_clause='id > 0')
 
-    def delete_item_with_siblings(self, item_id: int):
+    def delete_item_with_all_siblings(self, item_id: int):
         pass
         # ToDo: Adi implement method
+
+    def get_item_siblings(self, papa_id: int):
+        records_dict = DBInstance.find(self.table_name, where_clause=f"papa_id = {papa_id}", order_by="order_id ASC")
+        records = [Item(record) for record in records_dict]
+        return list(records)
+
+    def get_item_siblings_recursive(self, papa_id: int = 0):
+        items_list = self.get_item_siblings(papa_id)
+        for item in items_list:
+            sons = self.get_item_siblings_recursive(item.id)
+            # item.sons = sons if len(sons) > 0 else None
+            item.sons = sons
+        return items_list
 
     def get_root_items(self):
         return self.get_item_siblings(papa_id=0)
 
-    def get_item_siblings(self, papa_id: int):
-        records_dict = DBInstance.find(self.table_name, where_clause=f"papa_id = {papa_id}")
-        records = [Item(record) for record in records_dict]
-        return list(records)
-
-    def find_item_by_id(self, item_id):
-        records = DBInstance.find(self.table_name, f"item_id = {item_id}")
+    def find_item_by_id(self, item_id: int):
+        records = DBInstance.find(self.table_name, where_clause=f"item_id = {item_id}")
         return Item(records[0])
 
-    def find_items_by_name(self, item_name):
-        records_dict = DBInstance.find(self.table_name, f"item_name = '{item_name}'")
+    def find_items_by_name(self, item_name: str):
+        records_dict = DBInstance.find(self.table_name, where_clause=f"item_name = '{item_name}'")
+        records = [Item(record) for record in records_dict]
+        return records
+
+    def find_items_by_name_start(self, item_name: str):
+        records_dict = DBInstance.find(self.table_name, where_clause=f"item_name LIKE '{item_name}%'")
         records = [Item(record) for record in records_dict]
         return records
 
@@ -88,17 +112,10 @@ class PurchaseList:
                 for item_name in items:
                     item_id = self.add_item(item_name, papa_id=dep_id)
 
-    def get_recursive_items(self, papa_id: int = 0):
-        items_list = self.get_item_siblings(papa_id)
-        for item in items_list:
-            sons = self.get_recursive_items(item.id)
-            item.sons = sons if len(sons) > 0 else None
-        return items_list
-
     def print_db(self):
         list_records = self.get_root_items()
         for list_record in list_records:
-            sons = self.get_recursive_items(papa_id=list_record.id)
+            sons = self.get_item_siblings_recursive(papa_id=list_record.id)
             print(f"{list_record.item_name}: {sons}")
 
 
