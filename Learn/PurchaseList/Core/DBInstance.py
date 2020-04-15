@@ -12,10 +12,10 @@ def db_call(function):
     def wrapper(cls, *args, **kwargs):
         try:
             res = function(cls, *args, **kwargs)
-        except DBException as ex:
-            line = f"DBInstance call exception: {str(ex)}"
-            print(line)
-            raise DBException(line)
+        # except DBException as ex:
+            # line = f"DBInstance call exception: {str(ex)}"
+            # print(line)
+            # raise DBException(ex)
         except mysql.connector.Error as ex:
             line = f"mysql.connector.Error call exception: {str(ex)}"
             print(line)
@@ -57,12 +57,12 @@ class DBInstance:
 
     @classmethod
     @db_call
-    def execute_sql(cls, sql_cmd):
+    def execute_sql(cls, sql_cmd: str):
         try:
             cls.cursor = cls.db.cursor()
             res = cls.cursor.execute(sql_cmd)
         except mysql.connector.Error as ex:
-            raise DBException(f"DBInstance exception: {ex}")
+            raise DBException(f"DBInstance execute_sql exception: sql={sql_cmd} ex: {ex}")
         return res
 
     @classmethod
