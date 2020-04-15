@@ -2,6 +2,22 @@
 from Learn.PurchaseList.Core.DBInstance import *
 
 
+class PurchaseListException(Exception):
+    pass
+
+
+def db_call(function):
+    def wrapper(self, *args, **kwargs):
+        try:
+            res = function(self, *args, **kwargs)
+        except DBException as ex:
+            line = f"DB call exception: {str(ex)}"
+            print(line)
+            raise PurchaseListException(line)
+        return res
+    return wrapper
+
+
 class Item:
     def __init__(self, item_dict: dict):
         self._id: int = item_dict['id']
@@ -23,37 +39,45 @@ class Item:
 
     # Note: we don't allow setter, only constructor modify value
     # if try to use setter will raise AttributeError exception
-    # @id.setter
-    # def id(self, value: int):
-    #     self._id = value
+    @id.setter
+    def id(self, value: int):
+        raise PurchaseListException("Try to set id. It is forbidden")
+        # self._id = value
 
 
 class PurchaseList:
     def __init__(self):
         self.table_name = 'items'
 
+    @db_call
     def connect(self):
         DBInstance.connect()
 
+    @db_call
     def disconnect(self):
         DBInstance.disconnect()
 
+    @db_call
     def add_item(self, item_name: str, papa_id: int = 0, order_id: int = 5):
         fields_data = {'item_name': item_name, 'papa_id': papa_id, 'order_id': order_id}
         item_id = DBInstance.insert(self.table_name, fields_data)
         return item_id
 
+    @db_call
     def update_item(self, item_id:int, item_fields: dict):
         res = DBInstance.update(self.table_name, item_fields, where_clause=f"id = {item_id}")
         return res
 
+    @db_call
     def delete_all_items(self):
         DBInstance.delete(self.table_name, where_clause='id > 0')
 
+    @db_call
     def delete_item_with_all_siblings(self, item_id: int):
         pass
         # ToDo: Adi implement method
 
+    @db_call
     def get_item_siblings(self, papa_id: int):
         records_dict = DBInstance.find(self.table_name, where_clause=f"papa_id = {papa_id}", order_by="order_id ASC")
         records = [Item(record) for record in records_dict]
@@ -70,15 +94,18 @@ class PurchaseList:
     def get_root_items(self):
         return self.get_item_siblings(papa_id=0)
 
+    @db_call
     def find_item_by_id(self, item_id: int):
         records = DBInstance.find(self.table_name, where_clause=f"item_id = {item_id}")
         return Item(records[0])
 
+    @db_call
     def find_items_by_name(self, item_name: str):
         records_dict = DBInstance.find(self.table_name, where_clause=f"item_name = '{item_name}'")
         records = [Item(record) for record in records_dict]
         return records
 
+    @db_call
     def find_items_by_name_start(self, item_name: str):
         records_dict = DBInstance.find(self.table_name, where_clause=f"item_name LIKE '{item_name}%'")
         records = [Item(record) for record in records_dict]
