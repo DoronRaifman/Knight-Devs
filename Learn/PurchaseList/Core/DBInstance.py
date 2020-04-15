@@ -8,16 +8,30 @@ class DBException(Exception):
     pass
 
 
+def db_call(function):
+    def wrapper(cls, *args, **kwargs):
+        try:
+            res = function(cls, *args, **kwargs)
+        except DBException as ex:
+            line = f"DBInstance call exception: {str(ex)}"
+            print(line)
+            raise DBException(line)
+        except mysql.connector.Error as ex:
+            line = f"mysql.connector.Error call exception: {str(ex)}"
+            print(line)
+            raise DBException(line)
+        return res
+    return wrapper
+
+
 class DBInstance:
     connect_info = {'user': 'Doron', 'password': 'Talinka1', 'host': 'localhost', 'database': 'purchase_list',
                     'raise_on_warnings': True, }
     db = None
     cursor = None
 
-    def __init__(self):
-        pass
-
     @classmethod
+    @db_call
     def connect(cls):
         if cls.db is None:
             try:
@@ -33,6 +47,7 @@ class DBInstance:
                 raise DBException(f"DBInstance exception: {ex}")
 
     @classmethod
+    @db_call
     def disconnect(cls):
         if cls.db is not None:
             cls.cursor.close()
@@ -41,6 +56,7 @@ class DBInstance:
             cls.db = None
 
     @classmethod
+    @db_call
     def execute_sql(cls, sql_cmd):
         try:
             cls.cursor = cls.db.cursor()
@@ -50,6 +66,7 @@ class DBInstance:
         return res
 
     @classmethod
+    @db_call
     def insert(cls, table_name: str, fields_val: dict):
         field_names = ""
         for field_name in fields_val.keys():
@@ -69,6 +86,7 @@ class DBInstance:
         return item_id
 
     @classmethod
+    @db_call
     def delete(cls, table_name: str, where_clause: str):
         sql_cmd = f"DELETE FROM {table_name} WHERE {where_clause}"
         res = cls.execute_sql(sql_cmd)
@@ -76,6 +94,7 @@ class DBInstance:
         return res
 
     @classmethod
+    @db_call
     def update(cls, table_name: str, fields_val: dict, where_clause: str):
         fields = ""
         for field_name, value in fields_val.items():
@@ -90,6 +109,7 @@ class DBInstance:
         return res
 
     @classmethod
+    @db_call
     def find(cls, table_name: str, where_clause: str, order_by: str = None):
         sql_cmd = f"select * from {table_name} WHERE {where_clause}"
         if order_by is not None:
