@@ -15,7 +15,8 @@ sick_count_by_country = {
                   3035, 3619, 3865, 4695, 4831, 6092, 6857,
                   7030, 7851, 8430, 8611, 9248, 9968, 10408,
                   # 12/4
-                  10743, 11235, 11868,
+                  10743, 11235, 11868, 12220, 12758, 13265,
+                  # 19/4
                   ]),
     ),
     'South Korea': (
@@ -26,7 +27,8 @@ sick_count_by_country = {
                   9332, 9478, 9583, 9786, 9786, 9887, 9976,
                   10062, 10156, 10237, 10284, 10331, 10423, 10450,
                   # 12/4
-                  10480, 10537, 10564,
+                  10480, 10537, 10564, 10591, 10613, 10653,
+
                   ]),
     ),
     'Germany': (
@@ -38,7 +40,8 @@ sick_count_by_country = {
                   77779, 84794, 89838, 92150, 100009,
                   101178, 107663, 115523, 121045,
                   # 12/4
-                  125452, 128048, 131100,
+                  125452, 128048, 131100, 133154, 135843, 143724,
+
                   ]),
     ),
     'Spain': (
@@ -50,7 +53,8 @@ sick_count_by_country = {
                   102179, 112065, 117710, 124736, 130759,
                   135032, 141942, 152446, 157053,
                   # 12/4
-                  163027, 169496, 172541,
+                  163027, 169496, 172541, 177633, 182816, 184416,
+
                   ]),
     ),
     'Italy': (
@@ -62,7 +66,8 @@ sick_count_by_country = {
                   110574, 115242, 119827, 124632, 128948,
                   132547, 135586, 143626, 147577,
                   # 12/4
-                  152271, 159516, 162488, 
+                  152271, 159516, 162488, 165155, 168941, 175925,
+
                   ]),
      ),
 }
@@ -159,7 +164,7 @@ def predict_all_and_draw(sick_count_by_country):
 
 def draw_graphs(results, long_count, time_line_long, max_count, max_sick_count, max_sick_count_predict):
     fig = plt.figure(figsize=(12, 9))
-    plt.suptitle("Corona handling efficiency score", size=30)
+    plt.suptitle(f"Corona handling efficiency score 15/4", size=30)
     color_list = ['blue', 'lime', 'magenta', 'orange', 'red', 'aqua', 'cyan']
     colors = {}
     for i, country_name in enumerate(results.keys()):
@@ -181,7 +186,7 @@ def draw_graphs(results, long_count, time_line_long, max_count, max_sick_count, 
     ax.set_ylabel('Sick count')
     plt.grid(True)
     plt.xlim(0, max_count + 1)
-    plt.ylim(0, 150000)
+    plt.ylim(0, 200000)
     # ax.legend(loc='upper left')
     ax.legend()
 
@@ -197,7 +202,7 @@ def draw_graphs(results, long_count, time_line_long, max_count, max_sick_count, 
     ax.set_ylabel('Sick count')
     plt.grid(True)
     plt.xlim(0, long_count + 1)
-    plt.ylim(0, 150000)
+    plt.ylim(0, 200000)
     # ax.legend(loc='upper left')
     ax.legend()
 
@@ -239,7 +244,7 @@ def draw_graphs(results, long_count, time_line_long, max_count, max_sick_count, 
     ax.legend()
     plt.grid(True)
     plt.xlim(0, max_count + 1)
-    plt.ylim(-50, 1500)
+    plt.ylim(-50, 3000)
 
     ax = plt.subplot(2, 2, 4)
     for country_name, result in results.items():
@@ -258,7 +263,7 @@ def draw_graphs(results, long_count, time_line_long, max_count, max_sick_count, 
     ax.legend()
     plt.grid(True)
     plt.xlim(0, len(time_line_long) + 1)
-    plt.ylim(-50, 1500)
+    plt.ylim(-50, 3000)
 
     plt.show()
     plt.close(fig)
