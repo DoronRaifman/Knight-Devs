@@ -1,6 +1,4 @@
-
-from Learn.PurchaseList.Core.DBInstance import *
-from Learn.PurchaseList.Core.PurchaseList import PurchaseList
+from Learn.ApplicationExamples.PurchaseList.Core.PurchaseList import PurchaseList
 
 
 def replace_order_id():

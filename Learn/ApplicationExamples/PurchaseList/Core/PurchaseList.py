@@ -1,5 +1,5 @@
 
-from Learn.PurchaseList.Core.DBInstance import *
+from Learn.ApplicationExamples.PurchaseList.Core.DBInstance import *
 
 
 class PurchaseListException(Exception):
