@@ -79,7 +79,7 @@ def example6():
 
 
 if __name__ == '__main__':
-    example6()
+    example1()
 
 
 
