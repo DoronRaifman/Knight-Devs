@@ -9,7 +9,6 @@ class AlgException(Exception):
         super().__init__(line)
 
 
-
 class BaseAlgObject:
     logger = WyPython.CodePortingExamples.Core.LogHelper.configure_log(name='default', logger_name='default')
 
