@@ -1,5 +1,4 @@
-https://knight-devs.com/
-Owner: Doron Raifman. draifman@gmail.com
+Owner: Doron Raifman. draifman@gmail.com, https://knight-devs.com/
 
 demonstrate two modules ported from CS to python:
 1. binary log file parser (from 2,419 to 60 lines of code)
