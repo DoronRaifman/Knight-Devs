@@ -40,7 +40,7 @@ class TestSQSInstance(TestCase):
          'G4DeviceFileType': EG4DeviceFileType.LogFileGPSDevice, 'had_errors': False, 'DeviceID': '354678050252464',
          'SampleTime': '2015, 11, 17, 15, 24', 'sGPS': 'N/A', 'sGainUsed': 'N/A', 'nSyncDuration': 0,
          'NC1': 0, 'NC2': 0,
-         },
+        },
         {
             'sFilename': 'auto_354678050252464_17_11_2015_15_24_00.log',
             'FileType': EG4DeviceGeneralFileType.LogFile, 'G4DeviceFileType': EG4DeviceFileType.LogFileGPSDevice,
