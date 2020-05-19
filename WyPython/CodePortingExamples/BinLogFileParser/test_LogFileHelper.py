@@ -1,3 +1,6 @@
+"""
+Author: Doron Raifman, draifman@gmail.com, Knight-Devs at https://knight-devs.com/
+"""
 
 import os
 from datetime import datetime

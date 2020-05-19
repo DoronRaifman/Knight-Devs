@@ -1,3 +1,6 @@
+"""
+Author: Doron Raifman, draifman@gmail.com, Knight-Devs at https://knight-devs.com/
+"""
 
 from struct import *
 import WyPython.CodePortingExamples.Core.LogHelper

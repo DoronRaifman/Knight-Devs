@@ -4,11 +4,12 @@ Binary Log file parser
 Original CS code (included): 1254 + 1165 Some of them is enums = 2419 lines of code
 Python: 60 lines of code + 192 enums and data                  =  252 lines of code
 
-very simple and clear 65 lines of code
+very simple and clear 60 lines of code
 most of the code is enums and data (no need to unit test)
 unit test and test data included
 easy to maintain
 
+Author: Doron Raifman, draifman@gmail.com, Knight-Devs at https://knight-devs.com/
 """
 
 from struct import *
