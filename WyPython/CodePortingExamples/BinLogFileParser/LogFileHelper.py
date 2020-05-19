@@ -1,3 +1,15 @@
+"""
+Binary Log file parser
+
+Original CS code (included): 1254 + 1165 Some of them is enums = 2419 lines of code
+Python: 60 lines of code + 192 enums and data                  =  252 lines of code
+
+most of the code is enums and data (no need to unit test)
+very simple and clear only 65 lines of code need to be tested
+unit test and test data included
+
+"""
+
 from struct import *
 
 from WyPython.CodePortingExamples.Core.BaseAlgObject import BaseAlgObject, AlgException
