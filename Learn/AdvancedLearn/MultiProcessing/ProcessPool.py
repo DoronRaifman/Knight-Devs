@@ -71,15 +71,15 @@ def example6():
     # wait for completed tasks to finish (one by one)
     # note that the execution order is not the order you put the tasks
     for result_handle in result_handles:
-        results = result_handle.get(timeout=20)
-        print(results)
+        result = result_handle.get(timeout=20)
+        print(result)
 
     pool.close()
     pool.join()
 
 
 if __name__ == '__main__':
-    example1()
+    example6()
 
 
 
