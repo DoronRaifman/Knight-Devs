@@ -1,6 +1,7 @@
 
 import numpy as np
 import numpy.matlib
+import scipy
 from scipy.spatial import distance
 
 
@@ -19,7 +20,7 @@ def test_two_vectors_min_distance1(vect1, vect2, threshold):
 
 
 def test_two_vectors_min_distance2(vect1, vect2, threshold):
-    distances = distance.cdist(vect1, vect2, 'euclidean')
+    distances = scipy.spatial.distance.cdist(vect1, vect2, 'euclidean')
     min_distance = np.min(distances, axis=None)
     distances = np.round(distances, 1)
     min_distance = np.round(min_distance, 1)
@@ -31,4 +32,3 @@ if __name__ == '__main__':
     vect1 = np.array([[1, 2], [5, 6], [10, 11], [15, 16]])
     vect2 = np.array([[3, 4], [7, 8], [12, 13], [17, 18], [20, 21]])
     test_two_vectors_min_distance1(vect1, vect2, threshold)
-
