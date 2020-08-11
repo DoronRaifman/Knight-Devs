@@ -59,6 +59,7 @@ def print_db():
 
 if __name__ == '__main__':
     print_db()
+    search_by_name()
 
 
 

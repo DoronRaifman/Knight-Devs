@@ -94,9 +94,19 @@ class PurchaseList:
     def get_root_items(self):
         return self.get_item_siblings(papa_id=0)
 
+    def item_list_to_dict_list(self, items):
+        items_dict_list = []
+        for item in items:
+            item_dict = item.__dict__
+            item_dict['id'] = item_dict['_id']
+            del item_dict['sons']
+            del item_dict['_id']
+            items_dict_list.append(item_dict)
+        return items_dict_list
+
     @db_call
     def find_item_by_id(self, item_id: int):
-        records = DBInstance.find(self.table_name, where_clause=f"item_id = {item_id}")
+        records = DBInstance.find(self.table_name, where_clause=f"id = {item_id}")
         return Item(records[0])
 
     @db_call
