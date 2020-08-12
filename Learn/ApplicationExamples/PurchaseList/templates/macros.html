@@ -132,7 +132,14 @@
 {% endmacro %}
 
 
-{% macro draw_items(items) %}
+{% macro draw_items(papa, items) %}
+    <table width="50%">
+        <tr>
+            <td id="papa_id"> {{ papa['id'] }}</td>
+            <td id="papa_name">{{ papa['item_name'] }}</td>
+            <td id="grandpa_id">{{ papa['papa_id'] }}</td>
+        </tr>
+    </table>
     <table width="100%">
         {% set widths = [40, 5, 10, 10, 30, 5] %}
 

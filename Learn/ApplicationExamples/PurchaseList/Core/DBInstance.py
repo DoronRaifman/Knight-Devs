@@ -25,8 +25,12 @@ def db_call(function):
 
 
 class DBInstance:
-    connect_info = {'user': 'ilanit', 'password': 'ilanit', 'host': 'localhost', 'database': 'purchase_list',
-                    'raise_on_warnings': True, 'auth_plugin':'mysql_native_password'}
+    connect_info = {
+        'user': 'Doron', 'password': 'Talinka1',
+        # 'user': 'ilanit', 'password': 'ilanit',
+        'host': 'localhost', 'database': 'purchase_list',
+        'raise_on_warnings': True, 'auth_plugin':'mysql_native_password'
+    }
     db = None
     cursor = None
 

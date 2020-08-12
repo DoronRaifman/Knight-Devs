@@ -37,26 +37,13 @@ function get_radio(group_name){
 
 function call_item(item_id){
     console.log('goto' + item_id);
-    $.get(
-        '/goto',
-        {'item_id': item_id},
-        function (data) {
-            console.log(data);
-            window.location.replace("/");
-        },
-        'html');
+    window.location.href = "/?papa_id="+item_id;
 }
 
 
 function go_up(){
     console.log('goup');
-    $.get(
-        '/goup',
-        {'stam': 1},
-        function (data) {
-            console.log(data);
-            window.location.replace("/");
-        },
-        'html');
+    grandpa_id = document.getElementById("grandpa_id").innerHTML;
+    window.location.href = "/?papa_id="+grandpa_id;
 }
 

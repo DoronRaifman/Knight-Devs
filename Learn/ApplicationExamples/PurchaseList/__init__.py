@@ -4,7 +4,7 @@ import socket
 import logging
 import warnings
 
-from flask import Flask, request, render_template, jsonify, send_from_directory, url_for
+from flask import Flask, request, render_template, jsonify, send_from_directory, url_for, redirect
 
 # import Learn.ApplicationExamples.PurchaseList.Core.LogHelper
 from Learn.ApplicationExamples.PurchaseList.Core.Enums import *
@@ -49,6 +49,8 @@ class Main:
         cls.logger = cls.configure_log(name='default', logger_name='default')
         warnings.simplefilter("ignore")
 
+        Main.purchase_list.connect()
+
         host_name = socket.gethostname()
         real_ip = socket.gethostbyname(host_name)
         # real_ip = "127.0.0.1"
@@ -63,20 +65,24 @@ class Main:
         # app.run()
         # app.run(host=ip, port=port, debug=False)
         # app.run(port=port)
+        Main.purchase_list.disconnect()
 
 
 @app.route('/')
 def index():
-    Main.purchase_list.connect()
+    papa_id = request.args.get('papa_id')
+    if papa_id is None:
+        papa_id = 0
+    Main.cur_papa = int(papa_id)
     items_list = Main.purchase_list.get_item_siblings(papa_id=Main.cur_papa)
     items = Main.purchase_list.item_list_to_dict_list(items_list)
     if Main.cur_papa != 0:
-        papa = Main.purchase_list.find_item_by_id(Main.cur_papa)
-        papa_name = papa.item_name
+        papa_item = Main.purchase_list.find_item_by_id(Main.cur_papa)
+        papa_dict_list = Main.purchase_list.item_list_to_dict_list([papa_item])
+        papa = papa_dict_list[0]
     else:
-        papa_name = 'Top level'
-    Main.purchase_list.disconnect()
-    return render_template('index.html', papa_name=papa_name, items=items)
+        papa = {'id': 0, 'item_name': 'Top Level', 'papa_id': 0}
+    return render_template('index.html', papa=papa, items=items)
 
 
 @app.route('/version', methods=['GET'])
@@ -92,17 +98,14 @@ def goto():
     return jsonify("OK")
 
 
-@app.route('/goup', methods=['GET'])
-def goup():
-    if Main.cur_papa != 0:
-        Main.purchase_list.connect()
-        papa = Main.purchase_list.find_item_by_id(Main.cur_papa)
-        Main.purchase_list.disconnect()
-        Main.logger.debug(f'goup to {papa.papa_id}')
-        Main.cur_papa = papa.papa_id
-    else:
-        Main.logger.debug(f'goup - already at root')
-    return jsonify("OK")
+@app.route('/get_item', methods=['GET'])
+def get_item():
+    item_id = int(request.args.get('item_id'))
+    item = Main.purchase_list.find_item_by_id(item_id)
+    Main.purchase_list.disconnect()
+    Main.logger.debug(f'goup to {item.id}, {item.item_name}')
+    item_dict_list = Main.purchase_list.item_list_to_dict_list([item])
+    return jsonify(item_dict_list[0])
 
 
 @app.route('/favicon.ico')
