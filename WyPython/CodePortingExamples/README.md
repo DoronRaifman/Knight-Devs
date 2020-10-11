@@ -1,4 +1,4 @@
-Owner: Doron Raifman. draifman@gmail.com, https://knight-devs.com/
+Owner: Doron Raifman. draifman@gmail.com, http://knight-devs.com/
 Part of my lecture Why Python? at:
 https://docs.google.com/presentation/d/1CgxxI3v1iVD7DRbt2s7N3aC6Lzu9GKCIxqGGBbdtcI0/edit?usp=sharing
 demonstrate two modules ported from CS to python:
