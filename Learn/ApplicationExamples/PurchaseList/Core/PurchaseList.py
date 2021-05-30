@@ -149,12 +149,6 @@ class PurchaseList:
                 for item_name in items:
                     item_id = self.add_item(item_name, papa_id=dep_id)
 
-    def print_db(self):
-        list_records = self.get_root_items()
-        for list_record in list_records:
-            sons = self.get_item_siblings_recursive(papa_id=list_record.id)
-            print(f"{list_record.item_name}: {sons}")
-
 
 
 
