@@ -9,7 +9,7 @@ most of the code is enums and data (no need to unit test)
 unit test and test data included
 easy to maintain
 
-Author: Doron Raifman, draifman@gmail.com, Knight-Devs at https://knight-devs.com/
+Author: Doron Raifman, draifman@gmail.com, Knight-Devs at http://knight-devs.com/
 """
 
 from struct import *
