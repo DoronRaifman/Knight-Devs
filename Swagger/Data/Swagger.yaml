@@ -1,0 +1,65 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a Swagger tester"
+  version: "1.0.0"
+  title: "Swagger tester"
+  termsOfService: "http://knight-devs.com/"
+  contact:
+    email: "draifman@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "127.0.0.1"
+basePath: "/v2"
+tags:
+- name: "Swagger"
+  description: "Swagger tester"
+- name: "tester"
+  description: "Test Swagger"
+- name: "user"
+  description: "Operations about user"
+schemes:
+- "http"
+paths:
+  /book_details/{book_id}/{book_name}/{book_year}:
+    get:
+      tags:
+      - "get"
+      summary: "Find book"
+      description: "Returns a single book"
+      operationId: "book_details"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "book_id"
+        in: "path"
+        description: "ID of book to return"
+        required: true
+        type: "string"
+      - name: "book_name"
+        in: "path"
+        description: "book name"
+        required: true
+        type: "string"
+      - name: "book_year"
+        in: "path"
+        description: "book year"
+        required: true
+        type: "integer"
+        format: "int64"
+      security:
+      - api_key: []
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/get"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Book not found"
+      x-swagger-router-controller: "swagger_server.controllers.books_controller"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
