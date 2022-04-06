@@ -55,9 +55,9 @@ class SwaggerWorker:
             result = requests.get(url, headers=header)
             json_dict_res = json.loads(result.text)
             if json_dict_res != self.book_result:
-                print(f'response error. got {result}')
+                print(f'test response error. got {result}')
             else:
-                print('worked ok')
+                print('test worked ok')
 
 
 
