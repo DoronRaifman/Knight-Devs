@@ -47,6 +47,7 @@ class SwaggerWorker:
                 param_name = parameter['name']
                 value = str(self.book_result[param_name])
                 params_url = params_url.replace('{' + param_name + '}', value, 1)
+            # Todo: handle also spaces in book name
             host, schema = yaml_data['host'], yaml_data['schemes'][0]
             # Todo: handle also https
             url = f'{schema}://{host}:5000{params_url}'
